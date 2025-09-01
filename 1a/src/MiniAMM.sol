@@ -69,5 +69,33 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents {
     }
 
     // complete the function
-    function swap(uint256 xAmountIn, uint256 yAmountIn) external {}
+    function swap(uint256 xAmountIn, uint256 yAmountIn) external {
+        require(k != 0, "No liquidity in pool");
+        require(xAmountIn > 0 || yAmountIn > 0, "Must swap at least one token");
+        require(xAmountIn == 0 || yAmountIn == 0, "Can only swap one direction at a time");
+        require(xAmountIn <= xReserve && yAmountIn <= yReserve, "Insufficient liquidity"); // one of them must be 0, just check liquidity of the other input
+        if (yAmountIn == 0) {
+            // k = x * y = (x + xSwap) * (y - yOut)
+            // yOut = y - k/(x + xSwap)
+            uint256 yOut = yReserve - (k / (xReserve + xAmountIn));
+            IERC20(tokenX).transferFrom(msg.sender, address(this), xAmountIn);
+            IERC20(tokenY).transfer(msg.sender, yOut); // from contract's balance
+
+            xReserve += xAmountIn;
+            yReserve -= yOut;
+
+            emit Swap(xAmountIn, yOut);
+        } else if (xAmountIn == 0) {
+            // k = x * y = (x - xOut) * (y + ySwap)
+            // xOut = x - k/(y + ySwap)
+            uint256 xOut = xReserve - (k / (yReserve + yAmountIn));
+            IERC20(tokenY).transferFrom(msg.sender, address(this), yAmountIn);
+            IERC20(tokenX).transfer(msg.sender, xOut); // from contract's balance
+
+            xReserve -= xOut;
+            yReserve += yAmountIn;
+
+            emit Swap(xOut, yAmountIn);
+        }
+    }
 }
