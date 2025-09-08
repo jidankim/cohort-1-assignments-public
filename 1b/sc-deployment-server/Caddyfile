@@ -1,0 +1,22 @@
+{
+	auto_https off
+}
+
+:8081 {
+	encode zstd gzip
+
+	# Serve deployment JSON at /deployment
+	root * /artifacts
+	handle /deployment {
+		rewrite * /deployment-addresses.json
+		file_server
+	}
+
+	# Optional: serve any additional files under /deployment/
+	handle_path /deployment/* {
+		file_server
+	}
+
+	respond /health 200
+}
+
