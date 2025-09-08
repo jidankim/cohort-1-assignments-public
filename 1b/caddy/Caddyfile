@@ -10,6 +10,11 @@
 		reverse_proxy http://geth:8545
 	}
 
+# Expose deployment JSON via main Caddy on :8080 (no .json in path)
+	handle /deployment {
+		reverse_proxy http://sc-deployment-server:8081
+	}
+
 	# Health endpoint
 	respond /health 200
 }
