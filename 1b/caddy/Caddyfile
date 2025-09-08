@@ -1,0 +1,16 @@
+{
+	auto_https off
+}
+
+:8080 {
+	encode zstd gzip
+
+	# Strip the /rpc prefix before proxying to geth
+	handle_path /rpc* {
+		reverse_proxy http://geth:8545
+	}
+
+	# Health endpoint
+	respond /health 200
+}
+
