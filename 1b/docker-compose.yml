@@ -5,7 +5,7 @@ services:
         image: caddy:2.8
         container_name: caddy
         ports:
-            - "8080:8080"
+            - "8090:8090"
         volumes:
             - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
         depends_on:
@@ -16,7 +16,7 @@ services:
         image: caddy:2.8
         container_name: sc-deployment-server
         ports:
-            - "8081:8081"
+            - "8091:8081"
         volumes:
             - ./sc-deployment-server/Caddyfile:/etc/caddy/Caddyfile:ro
             - ./sc-deployer:/artifacts:ro

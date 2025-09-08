@@ -2,7 +2,36 @@
 	auto_https off
 }
 
-:8080 {
+
+(cors) {
+     @cors_preflight* method OPTIONS
+
+
+    @cors* header Origin *
+
+    handle @cors_preflight* {
+        header {
+            Access-Control-Allow-Origin "*"
+            Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+            Access-Control-Allow-Headers *
+            Access-Control-Max-Age "3600"
+            defer # turn on defer on your header directive to make sure the new header values are set after proxying
+        }
+        respond "" 204
+    }
+
+    handle @cors* {
+        header {
+            Access-Control-Allow-Origin "*"
+            Access-Control-Expose-Headers *
+            defer
+        }
+    }
+}
+
+:8090 {
+    import cors
+
 	encode zstd gzip
 
 	# Strip the /rpc prefix before proxying to geth
@@ -10,7 +39,46 @@
 		reverse_proxy http://geth:8545
 	}
 
-# Expose deployment JSON via main Caddy on :8080 (no .json in path)
+	# Proxy Blockscout absolute asset and API paths FIRST (before /explorer route)
+	handle /_next* {
+		reverse_proxy http://host.docker.internal:80
+	}
+	handle /assets* {
+		reverse_proxy http://host.docker.internal:80
+	}
+	handle /icons* {
+		reverse_proxy http://host.docker.internal:80
+	}
+	handle /static* {
+		reverse_proxy http://host.docker.internal:80
+	}
+	handle /favicon.ico {
+		reverse_proxy http://host.docker.internal:80
+	}
+	handle /robots.txt {
+		reverse_proxy http://host.docker.internal:80
+	}
+	handle /api* {
+		reverse_proxy http://host.docker.internal:80
+	}
+	handle /socket* {
+		reverse_proxy http://host.docker.internal:80
+	}
+	handle /ws* {
+		reverse_proxy http://host.docker.internal:80
+	}
+
+	# Proxy Blockscout UI under /explorer to host's Blockscout at :80
+	# Ensure trailing slash for relative asset resolution
+	redir /explorer /explorer/
+	handle /explorer* {
+		uri strip_prefix /explorer
+		reverse_proxy http://host.docker.internal:80 {
+			header_up X-Forwarded-Prefix /explorer
+		}
+	}
+
+    # Expose deployment JSON via main Caddy on :8090 (no .json in path)
 	handle /deployment {
 		reverse_proxy http://sc-deployment-server:8081
 	}
