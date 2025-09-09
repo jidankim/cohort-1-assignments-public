@@ -92,6 +92,15 @@
 		reverse_proxy http://sc-deployment-server:8081
 	}
 
+	# GraphQL playground and API - proxy all Graph Node requests
+	handle /graph-playground* {
+		uri strip_prefix /graph-playground
+		reverse_proxy http://graph-node:8000
+	}
+	handle /subgraphs* {
+		reverse_proxy http://graph-node:8000
+	}
+
 	# Health endpoint
 	respond /health 200
 }
