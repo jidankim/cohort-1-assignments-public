@@ -58,6 +58,15 @@
 	handle /robots.txt {
 		reverse_proxy http://host.docker.internal:80
 	}
+	# Handle WebSocket connections with subpath routing
+	handle_path /explorer/socket* {
+		reverse_proxy http://host.docker.internal:80
+	}
+	handle_path /explorer/ws* {
+		reverse_proxy http://host.docker.internal:80
+	}
+	
+	# Handle general socket and API routes
 	handle /api* {
 		reverse_proxy http://host.docker.internal:80
 	}
@@ -69,7 +78,7 @@
 	}
 
 	# Proxy Blockscout UI under /explorer to host's Blockscout at :80
-	# Ensure trailing slash for relative asset resolution
+	# Strip /explorer prefix before proxying to backend
 	redir /explorer /explorer/
 	handle /explorer* {
 		uri strip_prefix /explorer
