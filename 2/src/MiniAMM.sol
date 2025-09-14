@@ -120,9 +120,14 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
         require(xAmountIn == 0 || yAmountIn == 0, "Can only swap one direction at a time");
         require(xAmountIn <= xReserve && yAmountIn <= yReserve, "Insufficient liquidity"); // one of them must be 0, just check liquidity of the other input
         if (yAmountIn == 0) {
-            // k = x * y = (x + xSwap) * (y - yOut)
-            // yOut = y - k/(x + xSwap)
-            uint256 yOut = yReserve - (k / (xReserve + xAmountIn));
+            // k = x * y = (x + 0.997 * xSwap) * (y - yOut)
+            // yOut = y - k/(x + 0.997 * xSwap)
+            // 0.997 = 997/1000, so 0.997 * xAmountIn = (997 * xAmountIn) / 1000
+            // yOut = yReserve - (k / (xReserve + (997 * xAmountIn) / 1000))
+            //      = yReserve - (1000 * k) / ((1000 * xReserve) + (997 * xAmountIn))
+            //      = (yReserve * ((1000 * xReserve) + (997 * xAmountIn)) - (1000 * k)) / ((1000 * xReserve) + (997 * xAmountIn))
+            // note: k = xReserve * yReserve
+            uint256 yOut = (yReserve * 997 * xAmountIn) / (1000 * xReserve + 997 * xAmountIn);
             IERC20(tokenX).transferFrom(msg.sender, address(this), xAmountIn);
             IERC20(tokenY).transfer(msg.sender, yOut); // from contract's balance
 
@@ -131,9 +136,12 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
 
             emit Swap(xAmountIn, 0, 0, yOut);
         } else if (xAmountIn == 0) {
-            // k = x * y = (x - xOut) * (y + ySwap)
-            // xOut = x - k/(y + ySwap)
-            uint256 xOut = xReserve - (k / (yReserve + yAmountIn));
+            // k = x * y = (x - xOut) * (y + 0.997 * ySwap)
+            // xOut = x - k/(y + 0.997 * ySwap)
+            // 0.997 = 997/1000, so 0.997 * yAmountIn = (997 * yAmountIn) / 1000
+            // xOut = xReserve - (k / (yReserve + (997 * yAmountIn) / 1000))
+            //      = xReserve - (1000 * k) / ((1000 * yReserve) + (997 * yAmountIn))
+            uint256 xOut = (xReserve * 997 * yAmountIn) / (1000 * yReserve + 997 * yAmountIn);
             IERC20(tokenY).transferFrom(msg.sender, address(this), yAmountIn);
             IERC20(tokenX).transfer(msg.sender, xOut); // from contract's balance
 
