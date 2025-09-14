@@ -17,6 +17,17 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
 
     // implement constructor
     constructor(address _tokenX, address _tokenY) MiniAMMLP(_tokenX, _tokenY) {
+        require(_tokenX != address(0), "tokenX cannot be zero address");
+        require(_tokenY != address(0), "tokenY cannot be zero address");
+        require(_tokenX != _tokenY, "Tokens must be different");
+
+        if (_tokenX < _tokenY) {
+            tokenX = _tokenX;
+            tokenY = _tokenY;
+        } else {
+            tokenX = _tokenY;
+            tokenY = _tokenX;
+        }
     }
 
     // Helper function to calculate square root
@@ -34,16 +45,40 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
     // add parameters and implement function.
     // this function will determine the 'k'.
     function _addLiquidityFirstTime(uint256 xAmountIn, uint256 yAmountIn) internal returns (uint256 lpMinted) {
+        IERC20(tokenX).transferFrom(msg.sender, address(this), xAmountIn);
+        IERC20(tokenY).transferFrom(msg.sender, address(this), yAmountIn);
+
+        // set reserves and k
+        k = xAmountIn * yAmountIn;
+        xReserve = xAmountIn;
+        yReserve = yAmountIn;
     }
 
     // add parameters and implement function.
     // this function will increase the 'k'
     // because it is transferring liquidity from users to this contract.
-    function _addLiquidityNotFirstTime(uint256 xAmountIn) internal returns (uint256 lpMinted) {
+    function _addLiquidityNotFirstTime(uint256 xAmountIn, uint256 yAmountIn) internal returns (uint256 lpMinted) {
+        IERC20(tokenX).transferFrom(msg.sender, address(this), xAmountIn);
+        IERC20(tokenY).transferFrom(msg.sender, address(this), yAmountIn);
+
+        // update reserves and increased k
+        xReserve += xAmountIn;
+        yReserve += yAmountIn;
+        k = xReserve * yReserve;
     }
 
     // complete the function. Should transfer LP token to the user.
     function addLiquidity(uint256 xAmountIn, uint256 yAmountIn) external returns (uint256 lpMinted) {
+        require(xAmountIn > 0 && yAmountIn > 0, "Amounts must be greater than 0");
+        if (k == 0) {
+            // add params
+            _addLiquidityFirstTime(xAmountIn, yAmountIn);
+        } else {
+            // add params
+            _addLiquidityNotFirstTime(xAmountIn, yAmountIn);
+        }
+
+        emit AddLiquidity(xAmountIn, yAmountIn);
     }
 
     // Remove liquidity by burning LP tokens
@@ -52,5 +87,32 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
 
     // complete the function
     function swap(uint256 xAmountIn, uint256 yAmountIn) external {
+        require(k != 0, "No liquidity in pool");
+        require(xAmountIn > 0 || yAmountIn > 0, "Must swap at least one token");
+        require(xAmountIn == 0 || yAmountIn == 0, "Can only swap one direction at a time");
+        require(xAmountIn <= xReserve && yAmountIn <= yReserve, "Insufficient liquidity"); // one of them must be 0, just check liquidity of the other input
+        if (yAmountIn == 0) {
+            // k = x * y = (x + xSwap) * (y - yOut)
+            // yOut = y - k/(x + xSwap)
+            uint256 yOut = yReserve - (k / (xReserve + xAmountIn));
+            IERC20(tokenX).transferFrom(msg.sender, address(this), xAmountIn);
+            IERC20(tokenY).transfer(msg.sender, yOut); // from contract's balance
+
+            xReserve += xAmountIn;
+            yReserve -= yOut;
+
+            emit Swap(xAmountIn, 0, 0, yOut);
+        } else if (xAmountIn == 0) {
+            // k = x * y = (x - xOut) * (y + ySwap)
+            // xOut = x - k/(y + ySwap)
+            uint256 xOut = xReserve - (k / (yReserve + yAmountIn));
+            IERC20(tokenY).transferFrom(msg.sender, address(this), yAmountIn);
+            IERC20(tokenX).transfer(msg.sender, xOut); // from contract's balance
+
+            xReserve -= xOut;
+            yReserve += yAmountIn;
+
+            emit Swap(0, yAmountIn, xOut, 0);
+        }
     }
 }
