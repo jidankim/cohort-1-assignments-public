@@ -48,10 +48,16 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
         IERC20(tokenX).transferFrom(msg.sender, address(this), xAmountIn);
         IERC20(tokenY).transferFrom(msg.sender, address(this), yAmountIn);
 
+        // mint lp tokens
+        lpMinted = sqrt(xAmountIn * yAmountIn);
+        _mintLP(msg.sender, lpMinted);
+
         // set reserves and k
         k = xAmountIn * yAmountIn;
         xReserve = xAmountIn;
         yReserve = yAmountIn;
+
+        return lpMinted;
     }
 
     // add parameters and implement function.
@@ -61,10 +67,16 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
         IERC20(tokenX).transferFrom(msg.sender, address(this), xAmountIn);
         IERC20(tokenY).transferFrom(msg.sender, address(this), yAmountIn);
 
+        // mint lp tokens
+        lpMinted = xAmountIn * totalSupply() / xReserve;
+        _mintLP(msg.sender, lpMinted);
+
         // update reserves and increased k
         xReserve += xAmountIn;
         yReserve += yAmountIn;
         k = xReserve * yReserve;
+
+        return lpMinted;
     }
 
     // complete the function. Should transfer LP token to the user.
@@ -72,13 +84,14 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
         require(xAmountIn > 0 && yAmountIn > 0, "Amounts must be greater than 0");
         if (k == 0) {
             // add params
-            _addLiquidityFirstTime(xAmountIn, yAmountIn);
+            lpMinted = _addLiquidityFirstTime(xAmountIn, yAmountIn);
         } else {
             // add params
-            _addLiquidityNotFirstTime(xAmountIn, yAmountIn);
+            lpMinted = _addLiquidityNotFirstTime(xAmountIn, yAmountIn);
         }
 
         emit AddLiquidity(xAmountIn, yAmountIn);
+        return lpMinted;
     }
 
     // Remove liquidity by burning LP tokens
