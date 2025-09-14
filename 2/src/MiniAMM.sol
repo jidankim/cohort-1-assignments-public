@@ -96,6 +96,21 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
 
     // Remove liquidity by burning LP tokens
     function removeLiquidity(uint256 lpAmount) external returns (uint256 xAmount, uint256 yAmount) {
+        require(lpAmount > 0, "Lp amount must be greater than 0");
+        require(lpAmount <= balanceOf(msg.sender), "Insufficient lp token balance");
+
+        // transfer tokens to user
+        xAmount = lpAmount * xReserve / totalSupply();
+        yAmount = lpAmount * yReserve / totalSupply();
+        IERC20(tokenX).transfer(msg.sender, xAmount);
+        IERC20(tokenY).transfer(msg.sender, yAmount);
+
+        // burn lp tokens after calculating token amounts based on LP_total
+        _burnLP(msg.sender, lpAmount);
+
+        xReserve -= xAmount;
+        yReserve -= yAmount;
+        return (xAmount, yAmount);
     }
 
     // complete the function
