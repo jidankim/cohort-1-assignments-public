@@ -1,0 +1,29 @@
+{
+    "name": "miniamm-ui",
+    "private": true,
+    "version": "0.1.0",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "typechain": "typechain --target ethers-v6 --out-dir src/types/ethers-contracts abi/*.json"
+    },
+    "dependencies": {
+        "@rainbow-me/rainbowkit": "^1.3.0",
+        "ethers": "^6.13.2",
+        "next": "^15.0.0",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "wagmi": "^1.4.12"
+    },
+    "devDependencies": {
+        "@typechain/ethers-v6": "^0.5.1",
+        "typescript": "^5.6.3",
+        "tailwindcss": "^3.4.0",
+        "autoprefixer": "^10.4.16",
+        "postcss": "^8.4.32",
+        "@types/node": "^20.10.0",
+        "@types/react": "^18.2.45",
+        "@types/react-dom": "^18.2.18"
+    }
+}
