@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Header: React.FC = () => {
     return (
@@ -15,10 +14,6 @@ const Header: React.FC = () => {
                         <span className="ml-2 px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
                             Beta
                         </span>
-                    </div>
-
-                    <div className="flex items-center space-x-4">
-                        <ConnectButton />
                     </div>
                 </div>
             </div>

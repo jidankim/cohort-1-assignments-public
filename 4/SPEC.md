@@ -29,11 +29,11 @@ A Next.js frontend application for interacting with a MiniAMM (Automated Market 
 ## Features to Implement
 
 ### 1. Wallet Connection ✅
-- [ ] Implement RainbowKit wallet connection
-- [ ] Support multiple wallet providers (MetaMask, WalletConnect, etc.)
-- [ ] Display connected wallet address
-- [ ] Handle wallet disconnection
-- [ ] Show connection status and network information
+- [x] Implement RainbowKit wallet connection
+- [x] Support multiple wallet providers (MetaMask, WalletConnect, etc.)
+- [x] Display connected wallet address
+- [x] Handle wallet disconnection
+- [x] Show connection status and network information
 
 ### 2. Token Management
 - [ ] **Token Minting**

@@ -37,19 +37,22 @@ export function useEthers() {
         return getProvider()
     }, [])
 
-    const signer = useMemo(async () => {
+    // Return a function to get signer when needed
+    const getSignerAsync = useMemo(() => {
         if (!isConnected) return null
-        try {
-            return await getSigner()
-        } catch (error) {
-            console.error('Error getting signer:', error)
-            return null
+        return async () => {
+            try {
+                return await getSigner()
+            } catch (error) {
+                console.error('Error getting signer:', error)
+                return null
+            }
         }
     }, [isConnected])
 
     return {
         provider,
-        signer: signer as any, // Type assertion for now
+        getSigner: getSignerAsync,
     }
 }
 
