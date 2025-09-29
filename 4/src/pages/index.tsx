@@ -2,6 +2,8 @@ import React from 'react';
 import MainLayout from '../components/Layout/MainLayout';
 import WalletInfo from '../components/Wallet/WalletInfo';
 import ConnectButton from '../components/Wallet/ConnectButton';
+import TokenMint from '../components/Tokens/TokenMint';
+import TokenBalance from '../components/Tokens/TokenBalance';
 import { useWalletConnection } from '../hooks/useWalletConnection';
 
 const HomePage: React.FC = () => {
@@ -98,6 +100,14 @@ const HomePage: React.FC = () => {
                     )}
                 </div>
 
+                {/* Token Management Section */}
+                {mounted && isConnected && isCorrectNetwork && (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <TokenMint />
+                        <TokenBalance />
+                    </div>
+                )}
+
                 {/* Features Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -106,11 +116,11 @@ const HomePage: React.FC = () => {
                                 <span className="text-blue-600 font-bold">💰</span>
                             </div>
                             <h3 className="text-lg font-semibold text-gray-900">
-                                Token Balances
+                                Token Management
                             </h3>
                         </div>
                         <p className="text-gray-600 text-sm">
-                            View your token balances and contract reserves in real-time.
+                            Mint test tokens and view your balances in real-time.
                         </p>
                     </div>
 

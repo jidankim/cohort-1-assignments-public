@@ -36,11 +36,11 @@ A Next.js frontend application for interacting with a MiniAMM (Automated Market 
 - [x] Show connection status and network information
 
 ### 2. Token Management
-- [ ] **Token Minting**
-  - [ ] Create UI for minting MockERC20 tokens
-  - [ ] Input field for mint amount
-  - [ ] Separate mint buttons for Token A and Token B
-  - [ ] Handle minting transactions with loading states
+- [x] **Token Minting**
+  - [x] Create UI for minting MockERC20 tokens
+  - [x] Input field for mint amount
+  - [x] Separate mint buttons for Token A and Token B
+  - [x] Handle minting transactions with loading states
 
 - [ ] **Token Approval**
   - [ ] Create approval interface for both tokens
