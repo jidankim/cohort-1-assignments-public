@@ -55,10 +55,10 @@ A Next.js frontend application for interacting with a MiniAMM (Automated Market 
   - [x] Display Token B balance in connected wallet
   - [x] Real-time balance updates after transactions
 
-- [ ] **Contract Balances**
-  - [ ] Display Token A balance in MiniAMM contract
-  - [ ] Display Token B balance in MiniAMM contract
-  - [ ] Show total liquidity in the AMM
+- [x] **Contract Balances**
+  - [x] Display Token A balance in MiniAMM contract
+  - [x] Display Token B balance in MiniAMM contract
+  - [x] Show total liquidity in the AMM
 
 ### 4. Swap Interface
 - [ ] **Token Selection**

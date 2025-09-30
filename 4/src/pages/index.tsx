@@ -5,6 +5,7 @@ import ConnectButton from '../components/Wallet/ConnectButton';
 import TokenMint from '../components/Tokens/TokenMint';
 import TokenBalance from '../components/Tokens/TokenBalance';
 import TokenApproval from '../components/Tokens/TokenApproval';
+import ContractBalance from '../components/Tokens/ContractBalance';
 import { useWalletConnection } from '../hooks/useWalletConnection';
 
 const HomePage: React.FC = () => {
@@ -108,7 +109,10 @@ const HomePage: React.FC = () => {
                             <TokenMint />
                             <TokenBalance />
                         </div>
-                        <TokenApproval />
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <TokenApproval />
+                            <ContractBalance />
+                        </div>
                     </div>
                 )}
 
