@@ -100,26 +100,26 @@ A Next.js frontend application for interacting with a MiniAMM (Automated Market 
   - [x] Loading states and error handling
 
 ### 6. UI/UX Requirements
-- [ ] **Responsive Design**
-  - [ ] Mobile-friendly layout
-  - [ ] Desktop-optimized interface
-  - [ ] Consistent styling and spacing
+- [x] **Responsive Design**
+  - [x] Mobile-friendly layout
+  - [x] Desktop-optimized interface
+  - [x] Consistent styling and spacing
 
-- [ ] **Loading States**
-  - [ ] Button loading indicators
-  - [ ] Transaction pending states
-  - [ ] Disable interactions during transactions
+- [x] **Loading States**
+  - [x] Button loading indicators
+  - [x] Transaction pending states
+  - [x] Disable interactions during transactions
 
-- [ ] **Error Handling**
-  - [ ] Transaction failure notifications
-  - [ ] Insufficient balance warnings
-  - [ ] Network error handling
-  - [ ] User-friendly error messages
+- [x] **Error Handling**
+  - [x] Transaction failure notifications
+  - [x] Insufficient balance warnings
+  - [x] Network error handling
+  - [x] User-friendly error messages
 
-- [ ] **Real-time Updates**
-  - [ ] Refresh balances after transactions
-  - [ ] Update swap calculations on input change
-  - [ ] Sync with blockchain state
+- [x] **Real-time Updates**
+  - [x] Refresh balances after transactions
+  - [x] Update swap calculations on input change
+  - [x] Sync with blockchain state
 
 ## Technical Implementation
 
