@@ -61,16 +61,16 @@ A Next.js frontend application for interacting with a MiniAMM (Automated Market 
   - [x] Show total liquidity in the AMM
 
 ### 4. Swap Interface
-- [x] **Token Selection**
-  - [x] Dropdown/selector to choose which token to sell
-  - [x] Dropdown/selector to choose which token to buy
+- [x] **Token Selection** (Unified)
+  - [x] Token selectors embedded in the amount cards (From/To)
+  - [x] Switch button to swap From/To tokens
   - [x] Prevent selecting the same token for both sides
 
-- [ ] **Amount Input**
-  - [ ] Input field for amount to sell
-  - [ ] Input field for amount to buy (read-only, calculated)
-  - [ ] Input validation (positive numbers, sufficient balance)
-  - [ ] Max button to use full balance
+- [x] **Amount Input** (Unified)
+  - [x] From card: amount input for selected token (with Max)
+  - [x] To card: read-only calculated amount for selected token
+  - [x] Input validation (positive numbers, sufficient balance)
+  - [x] Real-time recalculation based on reserves
 
 - [ ] **Price Calculation**
   - [ ] Implement constant product formula: `x * y = k`

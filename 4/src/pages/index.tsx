@@ -6,7 +6,7 @@ import TokenMint from '../components/Tokens/TokenMint';
 import TokenBalance from '../components/Tokens/TokenBalance';
 import TokenApproval from '../components/Tokens/TokenApproval';
 import ContractBalance from '../components/Tokens/ContractBalance';
-import TokenSelector from '../components/Swap/TokenSelector';
+import AmountInput from '../components/Swap/AmountInput';
 import { useWalletConnection } from '../hooks/useWalletConnection';
 
 const HomePage: React.FC = () => {
@@ -114,8 +114,8 @@ const HomePage: React.FC = () => {
                             <TokenApproval />
                             <ContractBalance />
                         </div>
-                        {/* Swap Section - Token Selection */}
-                        <TokenSelector />
+                        {/* Swap Section - Amount Input (includes token selection context) */}
+                        <AmountInput />
                     </div>
                 )}
 
