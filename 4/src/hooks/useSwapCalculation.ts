@@ -3,18 +3,19 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { calculateSwapOutput } from '../lib/calculations';
 import { useContractBalance } from './useContractBalance';
-import { useTokenSelection } from './useTokenSelection';
 import { useTokenBalances } from './useTokenBalance';
 
-export const useSwapCalculation = () => {
+export const useSwapCalculation = (params: { tokenIn: 'A' | 'B'; tokenOut: 'A' | 'B' }) => {
+    const { tokenIn } = params;
     const { reserveA, reserveB, loading: reservesLoading } = useContractBalance();
-    const { tokenIn } = useTokenSelection();
     const { tokenA, tokenB } = useTokenBalances();
 
     const [amountIn, setAmountIn] = useState<string>('');
     const [amountOut, setAmountOut] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [isCalculating, setIsCalculating] = useState(false);
+    const [priceImpactBps, setPriceImpactBps] = useState<number>(0); // basis points
+    const [minOut, setMinOut] = useState<string>('');
 
     const inputReserve: bigint | null = useMemo(() => {
         if (reserveA == null || reserveB == null) return null;
@@ -67,12 +68,18 @@ export const useSwapCalculation = () => {
             const [whole, frac = ''] = amountIn.split('.');
             const fractional = frac.padEnd(18, '0').slice(0, 18);
             const weiIn = BigInt((whole || '0') + fractional);
-            const { outputAmount } = calculateSwapOutput(weiIn, inputReserve, outputReserve);
+            const { outputAmount, priceImpact, minimumOutput } = calculateSwapOutput(weiIn, inputReserve, outputReserve);
             // format to 6 decimals
             const wholeOut = outputAmount / 10n ** 18n;
             const fracOut = (outputAmount % 10n ** 18n).toString().padStart(18, '0').slice(0, 6);
             const formatted = fracOut === '000000' ? `${wholeOut.toString()}` : `${wholeOut.toString()}.${fracOut}`;
             setAmountOut(formatted);
+
+            // store price impact (convert percent to bps) and minimum received
+            setPriceImpactBps(Math.abs(priceImpact) * 100);
+            const minWhole = minimumOutput / 10n ** 18n;
+            const minFrac = (minimumOutput % 10n ** 18n).toString().padStart(18, '0').slice(0, 6);
+            setMinOut(minFrac === '000000' ? `${minWhole}` : `${minWhole}.${minFrac}`);
         } finally {
             setIsCalculating(false);
         }
@@ -98,6 +105,8 @@ export const useSwapCalculation = () => {
         error,
         isCalculating,
         reservesLoading,
+        priceImpactBps,
+        minOut,
     };
 };
 

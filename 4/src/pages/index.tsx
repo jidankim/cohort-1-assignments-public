@@ -115,7 +115,13 @@ const HomePage: React.FC = () => {
                             <ContractBalance />
                         </div>
                         {/* Swap Section - Amount Input (includes token selection context) */}
-                        <AmountInput />
+                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-lg font-semibold text-gray-900">Token Swap</h3>
+                                <span className="text-xs text-gray-500">Prices update live</span>
+                            </div>
+                            <AmountInput />
+                        </div>
                     </div>
                 )}
 

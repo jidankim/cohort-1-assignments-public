@@ -7,8 +7,8 @@ import { TOKEN_INFO } from '../../lib/constants';
 import LoadingSkeleton from '../LoadingSkeleton';
 
 const AmountInput: React.FC = () => {
-    const { amountIn, amountOut, setAmountIn, setMax, error, isCalculating, reservesLoading } = useSwapCalculation();
-    const { tokenIn, tokenOut, setIn, setOut, swapDirections, isValid } = useTokenSelection();
+    const { tokenIn, tokenOut, swapDirections } = useTokenSelection();
+    const { amountIn, amountOut, setAmountIn, setMax, error, isCalculating, reservesLoading, priceImpactBps, minOut } = useSwapCalculation({ tokenIn, tokenOut });
     const [mounted, setMounted] = useState(false);
 
     const tokenInInfo = useMemo(() => tokenIn === 'A' ? TOKEN_INFO.TOKEN_A : TOKEN_INFO.TOKEN_B, [tokenIn]);
@@ -36,14 +36,6 @@ const AmountInput: React.FC = () => {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-2">
                     <span className="text-sm text-gray-600">From</span>
-                    <select
-                        className="text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={tokenIn}
-                        onChange={(e) => setIn(e.target.value as 'A' | 'B')}
-                    >
-                        <option value="A" disabled={tokenOut === 'A'}>{TOKEN_INFO.TOKEN_A.symbol}</option>
-                        <option value="B" disabled={tokenOut === 'B'}>{TOKEN_INFO.TOKEN_B.symbol}</option>
-                    </select>
                 </div>
                 <div className="flex items-baseline space-x-3">
                     <span className="text-gray-900 font-semibold">{tokenInInfo.symbol}</span>
@@ -87,14 +79,6 @@ const AmountInput: React.FC = () => {
             <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-2">
                     <span className="text-sm text-gray-600">To (estimated)</span>
-                    <select
-                        className="text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={tokenOut}
-                        onChange={(e) => setOut(e.target.value as 'A' | 'B')}
-                    >
-                        <option value="A" disabled={tokenIn === 'A'}>{TOKEN_INFO.TOKEN_A.symbol}</option>
-                        <option value="B" disabled={tokenIn === 'B'}>{TOKEN_INFO.TOKEN_B.symbol}</option>
-                    </select>
                 </div>
                 <div className="flex items-baseline space-x-3">
                     <span className="text-gray-900 font-semibold">{tokenOutInfo.symbol}</span>
@@ -111,9 +95,19 @@ const AmountInput: React.FC = () => {
                 <div className="mt-1 text-xs text-gray-500">{tokenOutInfo.name} - {shortAddr(tokenOutInfo.address)}</div>
             </div>
 
-            {!isValid && (
-                <p className="text-center text-xs text-red-600">Please select two different tokens.</p>
-            )}
+            {/* Price details */}
+            <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
+                <div className="flex items-center justify-between bg-white border border-gray-200 rounded-md px-3 py-2">
+                    <span>Minimum received (0.5% slippage)</span>
+                    <span className="font-medium text-gray-900">{minOut || '0.0'}</span>
+                </div>
+                <div className="flex items-center justify-between bg-white border border-gray-200 rounded-md px-3 py-2">
+                    <span>Price impact</span>
+                    <span className={`font-medium ${priceImpactBps > 200 ? 'text-red-600' : priceImpactBps > 50 ? 'text-yellow-600' : 'text-gray-900'}`}>
+                        {(priceImpactBps / 100).toFixed(2)}%
+                    </span>
+                </div>
+            </div>
 
             <p className="text-center text-xs text-gray-500">Prices update automatically based on pool reserves</p>
         </div>

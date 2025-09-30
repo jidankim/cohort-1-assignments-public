@@ -72,11 +72,11 @@ A Next.js frontend application for interacting with a MiniAMM (Automated Market 
   - [x] Input validation (positive numbers, sufficient balance)
   - [x] Real-time recalculation based on reserves
 
-- [ ] **Price Calculation**
-  - [ ] Implement constant product formula: `x * y = k`
-  - [ ] Calculate output amount based on input
-  - [ ] Show price impact and slippage
-  - [ ] Handle edge cases (insufficient liquidity, etc.)
+- [x] **Price Calculation**
+  - [x] Implement constant product formula: `x * y = k`
+  - [x] Calculate output amount based on input
+  - [x] Show price impact and slippage (min received, impact color-coded)
+  - [x] Handle edge cases (insufficient liquidity, validation guards)
 
 - [ ] **Swap Execution**
   - [ ] Swap button with proper state management
