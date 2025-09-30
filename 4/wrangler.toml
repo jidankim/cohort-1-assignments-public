@@ -1,0 +1,12 @@
+name = "miniamm-ui"
+main = ".vercel/output/static/_worker.js"
+compatibility_date = "2024-06-01"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = ".vercel/output/static"
+binding = "ASSETS"
+exclude = ["_worker.js/**", "_worker.js"]
+
+[vars]
+# Public envs can be injected via Wrangler secrets or vars
