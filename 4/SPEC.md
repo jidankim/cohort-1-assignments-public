@@ -78,12 +78,12 @@ A Next.js frontend application for interacting with a MiniAMM (Automated Market 
   - [x] Show price impact and slippage (min received, impact color-coded)
   - [x] Handle edge cases (insufficient liquidity, validation guards)
 
-- [ ] **Swap Execution**
-  - [ ] Swap button with proper state management
-  - [ ] Loading indicator during transaction
-  - [ ] Disable button during transaction
-  - [ ] Success/error notifications
-  - [ ] Update balances after successful swap
+- [x] **Swap Execution**
+  - [x] Swap button with proper state management
+  - [x] Loading indicator during transaction
+  - [x] Disable button during transaction
+  - [x] Success/error notifications
+  - [x] Update balances after successful swap
 
 ### 5. Liquidity Management
 - [ ] **Add Liquidity**
