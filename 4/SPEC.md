@@ -61,10 +61,10 @@ A Next.js frontend application for interacting with a MiniAMM (Automated Market 
   - [x] Show total liquidity in the AMM
 
 ### 4. Swap Interface
-- [ ] **Token Selection**
-  - [ ] Dropdown/selector to choose which token to sell
-  - [ ] Dropdown/selector to choose which token to buy
-  - [ ] Prevent selecting the same token for both sides
+- [x] **Token Selection**
+  - [x] Dropdown/selector to choose which token to sell
+  - [x] Dropdown/selector to choose which token to buy
+  - [x] Prevent selecting the same token for both sides
 
 - [ ] **Amount Input**
   - [ ] Input field for amount to sell
