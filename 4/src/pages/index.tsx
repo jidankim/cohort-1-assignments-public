@@ -7,6 +7,8 @@ import TokenBalance from '../components/Tokens/TokenBalance';
 import TokenApproval from '../components/Tokens/TokenApproval';
 import ContractBalance from '../components/Tokens/ContractBalance';
 import AmountInput from '../components/Swap/AmountInput';
+import AddLiquidity from '../components/Liquidity/AddLiquidity';
+import RemoveLiquidity from '../components/Liquidity/RemoveLiquidity';
 import { useWalletConnection } from '../hooks/useWalletConnection';
 
 const HomePage: React.FC = () => {
@@ -121,6 +123,10 @@ const HomePage: React.FC = () => {
                                 <span className="text-xs text-gray-500">Prices update live</span>
                             </div>
                             <AmountInput />
+                        </div>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <AddLiquidity />
+                            <RemoveLiquidity />
                         </div>
                     </div>
                 )}

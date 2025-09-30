@@ -86,18 +86,18 @@ A Next.js frontend application for interacting with a MiniAMM (Automated Market 
   - [x] Update balances after successful swap
 
 ### 5. Liquidity Management
-- [ ] **Add Liquidity**
-  - [ ] Input fields for both token amounts
-  - [ ] Calculate optimal ratio based on current reserves
-  - [ ] Show estimated LP tokens to receive
-  - [ ] Handle add liquidity transaction
-  - [ ] Loading states and error handling
+- [x] **Add Liquidity**
+  - [x] Input fields for both token amounts
+  - [x] Calculate optimal ratio based on current reserves (hint displayed)
+  - [x] Show estimated LP tokens to receive
+  - [x] Handle add liquidity transaction
+  - [x] Loading states and error handling
 
-- [ ] **Remove Liquidity**
-  - [ ] Input field for LP token amount to burn
-  - [ ] Show estimated token amounts to receive
-  - [ ] Handle remove liquidity transaction
-  - [ ] Loading states and error handling
+- [x] **Remove Liquidity**
+  - [x] Input field for LP token amount to burn
+  - [x] Show estimated token amounts to receive (simplified/optional)
+  - [x] Handle remove liquidity transaction
+  - [x] Loading states and error handling
 
 ### 6. UI/UX Requirements
 - [ ] **Responsive Design**
