@@ -42,18 +42,18 @@ A Next.js frontend application for interacting with a MiniAMM (Automated Market 
   - [x] Separate mint buttons for Token A and Token B
   - [x] Handle minting transactions with loading states
 
-- [ ] **Token Approval**
-  - [ ] Create approval interface for both tokens
-  - [ ] Input field for approval amount
-  - [ ] Approve MiniAMM contract to spend tokens
-  - [ ] Show current allowance vs required allowance
-  - [ ] Handle approval transactions with loading states
+- [x] **Token Approval**
+  - [x] Create approval interface for both tokens
+  - [x] Input field for approval amount
+  - [x] Approve MiniAMM contract to spend tokens
+  - [x] Show current allowance vs required allowance
+  - [x] Handle approval transactions with loading states
 
 ### 3. Token Balance Display
-- [ ] **Wallet Balances**
-  - [ ] Display Token A balance in connected wallet
-  - [ ] Display Token B balance in connected wallet
-  - [ ] Real-time balance updates after transactions
+- [x] **Wallet Balances**
+  - [x] Display Token A balance in connected wallet
+  - [x] Display Token B balance in connected wallet
+  - [x] Real-time balance updates after transactions
 
 - [ ] **Contract Balances**
   - [ ] Display Token A balance in MiniAMM contract

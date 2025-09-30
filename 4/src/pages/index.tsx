@@ -4,6 +4,7 @@ import WalletInfo from '../components/Wallet/WalletInfo';
 import ConnectButton from '../components/Wallet/ConnectButton';
 import TokenMint from '../components/Tokens/TokenMint';
 import TokenBalance from '../components/Tokens/TokenBalance';
+import TokenApproval from '../components/Tokens/TokenApproval';
 import { useWalletConnection } from '../hooks/useWalletConnection';
 
 const HomePage: React.FC = () => {
@@ -102,9 +103,12 @@ const HomePage: React.FC = () => {
 
                 {/* Token Management Section */}
                 {mounted && isConnected && isCorrectNetwork && (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <TokenMint />
-                        <TokenBalance />
+                    <div className="space-y-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <TokenMint />
+                            <TokenBalance />
+                        </div>
+                        <TokenApproval />
                     </div>
                 )}
 
